@@ -1,0 +1,32 @@
+NAME
+    Catalyst::Plugin::Email - Send emails with Catalyst
+
+SYNOPSIS
+        use Catalyst 'Email';
+
+        __PACKAGE__->config->{email} = qw/SMTP smtp.oook.de/;
+
+        $c->email(
+            header => [
+                From    => 'sri@oook.de',
+                To      => 'sri@cpan.org',
+                Subject => 'Hello!'
+            ],
+            body => 'Hello sri'
+        );
+
+DESCRIPTION
+    Send emails with Catalyst and Email::Send and Email::MIME::Creator.
+
+  METHODS
+   email
+SEE ALSO
+    Catalyst.
+
+AUTHOR
+    Sebastian Riedel, "sri@cpan.org"
+
+COPYRIGHT
+    This program is free software, you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
