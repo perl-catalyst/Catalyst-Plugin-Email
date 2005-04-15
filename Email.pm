@@ -5,7 +5,7 @@ use Email::Send;
 use Email::MIME;
 use Email::MIME::Creator;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 

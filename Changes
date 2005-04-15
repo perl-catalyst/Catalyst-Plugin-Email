@@ -1,5 +1,7 @@
 Revision history for Perl extension Catalyst::Plugin::Email.
 
+0.04  Fri Apr 15 16:09:00 2005
+        - added pod tests.
 0.03  Wed Feb 02 18:00:00 2005
         - bugfix
 
