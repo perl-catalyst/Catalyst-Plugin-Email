@@ -5,7 +5,7 @@ use Email::Send;
 use Email::MIME;
 use Email::MIME::Creator;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
@@ -30,9 +30,62 @@ Catalyst::Plugin::Email - Send emails with Catalyst
 
 Send emails with Catalyst and L<Email::Send> and L<Email::MIME::Creator>.
 
-=head2 METHODS
+=head1 USING WITH A VIEW
 
-=head3 email
+A common practice is to handle emails using the same template language used
+for HTML pages.  This can be accomplished by pairing this plugin with
+L<Catalyst::Plugin::SubRequest>.
+
+Here is a short example of rendering an email from a Template Toolkit source
+file.  The call to $c->subreq makes an internal call to the render_email
+method just like an external call from a browser.  The request will pass
+through the end method to be processed by your View class.
+
+    sub send_email : Local {
+        my ( $self, $c ) = @_;  
+
+        $c->email(
+            header => [
+                To      => 'me@localhost',
+                Subject => 'A TT Email',
+            ],
+            body => $c->subreq( '/render_email' ),
+        );
+        # redirect or display a message
+    }
+    
+    sub render_email : Local {
+        my ( $self, $c ) = @_;
+        
+        $c->stash(
+            names    => [ qw/andyg sri mst/ ],
+            template => 'email.tt',
+        );
+    }
+    
+And the template:
+
+    [%- FOREACH name IN names -%]
+    Hi, [% name %]!
+    [%- END -%]
+    
+    --
+    Regards,
+    Us
+
+Output:
+
+    Hi, andyg!
+    Hi, sri!
+    Hi, mst!
+    
+    --
+    Regards,
+    Us
+
+=head1 METHODS
+
+=head2 email
 
 =cut
 
@@ -52,7 +105,8 @@ sub email {
 
 =head1 SEE ALSO
 
-L<Catalyst>.
+L<Catalyst>, L<Catalyst::Plugin::SubRequest>, L<Email::Send>,
+L<Email::MIME::Creator>
 
 =head1 AUTHOR
 
