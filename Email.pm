@@ -64,7 +64,10 @@ C<create()>.
             To      => 'me@localhost',
             Subject => 'A TT Email',
         ],
-        body => $c->subreq( '/render_email' ),
+        body => $c->view('TT')->render($c, 'email.tt', {
+           additional_template_paths => [ $c->config->{root} . '/email_templates'],
+           }
+        ),
     );
 
 To send a multipart message, include a C<parts> argument containing an 
@@ -85,7 +88,11 @@ arrayref of Email::MIME objects.
                 disposition  => 'attachment',
                 charset      => 'US-ASCII',
             },
-            body => $c->subreq( '/render_email' ),
+            body => $c->view('TT')->render($c, 'email.tt', {
+               additional_template_paths => [ $c->config->{root} . '/email_templates'],
+               names => [qw/foo bar baz/]
+               }
+            ),
         ),
     );
     
@@ -118,13 +125,13 @@ sub email {
 =head1 USING WITH A VIEW
 
 A common practice is to handle emails using the same template language used
-for HTML pages.  This can be accomplished by pairing this plugin with
-L<Catalyst::Plugin::SubRequest>.
+for HTML pages.  This is best accomplished by capturing the output from the
+template. For TT this is done using the C<render> method as described in 
+L<Catalyst::View:TT/CAPTURING TEMPLATE OUTPUT>.
 
 Here is a short example of rendering an email from a Template Toolkit source
-file.  The call to $c->subreq makes an internal call to the render_email
-method just like an external call from a browser.  The request will pass
-through the end method to be processed by your View class.
+file.  For more information on render (or how to do this with a view other
+than TT, consult the docs for your view) 
 
     sub send_email : Local {
         my ( $self, $c ) = @_;  
@@ -134,20 +141,15 @@ through the end method to be processed by your View class.
                 To      => 'me@localhost',
                 Subject => 'A TT Email',
             ],
-            body => $c->subreq( '/render_email' ),
+            body => $c->view('TT')->render('email.tt',
+             {  additional_template_paths => [ $c->config->{root} . '/email_templates'],
+                names => [ qw/andyg sri mst ash/ ],
+             } ),
+              
         );
         # redirect or display a message
     }
-    
-    sub render_email : Local {
-        my ( $self, $c ) = @_;
-        
-        $c->stash(
-            names    => [ qw/andyg sri mst/ ],
-            template => 'email.tt',
-        );
-    }
-    
+
 And the template:
 
     [%- FOREACH name IN names -%]
@@ -163,6 +165,7 @@ Output:
     Hi, andyg!
     Hi, sri!
     Hi, mst!
+    Hi, ash!
     
     --
     Regards,
@@ -170,8 +173,7 @@ Output:
 
 =head1 SEE ALSO
 
-L<Catalyst>, L<Catalyst::Plugin::SubRequest>, L<Email::Send>,
-L<Email::MIME::Creator>
+L<Catalyst>, L<Catalyst::View::TT>, L<Email::Send>, L<Email::MIME::Creator>
 
 =head1 AUTHOR
 
