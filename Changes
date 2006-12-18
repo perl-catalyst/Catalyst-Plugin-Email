@@ -1,10 +1,13 @@
 Revision history for Perl extension Catalyst::Plugin::Email.
 
-0.06
+0.07  2006-12-18 16:08:00
+	- Revert change:
+          Make it croak if recipient is empty.
+
+0.06  2006-12-06 12:23:00 
         - Added more extensive docs on config and usage.
           (Carl Franks)
-        - Make it croak if recipient is empty.
-        - Change docs to use ->render not subreq
+	- Make it croak if recipient is empty.
 
 0.05  Thu Nov 17 22:00:00 2005
         - Added docs on sending email using a TT template.
