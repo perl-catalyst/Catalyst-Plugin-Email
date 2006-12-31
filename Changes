@@ -1,5 +1,8 @@
 Revision history for Perl extension Catalyst::Plugin::Email.
 
+0.08
+	- Modernize documentation not to use subrequest.
+
 0.07  2006-12-18 16:08:00
 	- Revert change:
           Make it croak if recipient is empty.

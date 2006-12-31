@@ -116,34 +116,34 @@ sub email {
 =head1 USING WITH A VIEW
 
 A common practice is to handle emails using the same template language used
-for HTML pages.  This can be accomplished by pairing this plugin with
-L<Catalyst::Plugin::SubRequest>.
+for HTML pages.  If your view supports the 'render' method (Like the TT view 
+does), you just set the body like this:
+  $c->email(
+     header => [
+        To      => 'me@localhost',
+        Subject => 'A TT Email',
+     ],
+     body => $c->view('TT')->render($c,'mytemplate.tt'),
+  }
 
-Here is a short example of rendering an email from a Template Toolkit source
-file.  The call to $c->subreq makes an internal call to the render_email
-method just like an external call from a browser.  The request will pass
-through the end method to be processed by your View class.
+If your view doesn't support render, you can just forward to it, then reset 
+the body like this:
 
     sub send_email : Local {
         my ( $self, $c ) = @_;  
-
+        {
+        local $c->stash->{names}   = [ qw/andyg sri mst/ ],
+        local $c->stash->{template}= 'mytemplate.tt';   
+        $c->forward($c->view('MyView'));
         $c->email(
             header => [
                 To      => 'me@localhost',
                 Subject => 'A TT Email',
             ],
-            body => $c->subreq( '/render_email' ),
+            body => $c->res->body,
         );
-        # redirect or display a message
-    }
-    
-    sub render_email : Local {
-        my ( $self, $c ) = @_;
-        
-        $c->stash(
-            names    => [ qw/andyg sri mst/ ],
-            template => 'email.tt',
-        );
+        $c->res->body(undef);
+        }
     }
     
 And the template:
@@ -174,12 +174,9 @@ L<Email::MIME::Creator>
 =head1 AUTHOR
 
 Sebastian Riedel, C<sri@cpan.org>
-
-=head1 THANKS
-
-Andy Grundman - Additional documentation
-
-Carl Franks - Additional documentation
+Andy Grundman
+Carl Franks 
+Marcus Ramberg C<mramberg@cpan.org>
 
 =head1 COPYRIGHT
 
