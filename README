@@ -1,7 +1,10 @@
 NAME
-    Catalyst::Plugin::Email - Send emails with Catalyst
+    Catalyst::Plugin::Email - (DEPRECATED) Send emails with Catalyst
 
 SYNOPSIS
+
+        # please use Email::MIME::Kit or Catalyst::View::Email::Template instead
+
         use Catalyst 'Email';
 
         __PACKAGE__->config->{email} = [qw/SMTP smtp.oook.de/];

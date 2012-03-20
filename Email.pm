@@ -10,9 +10,11 @@ our $VERSION = '0.08';
 
 =head1 NAME
 
-Catalyst::Plugin::Email - Send emails with Catalyst
+Catalyst::Plugin::Email - (DEPRECATED) Send emails with Catalyst
 
 =head1 SYNOPSIS
+
+    # please use Email::MIME::Kit or Catalyst::View::Email::Template instead
 
     use Catalyst 'Email';
 
