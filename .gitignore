@@ -11,3 +11,4 @@
 !/.gitignore
 /Catalyst-Plugin-Email-*/
 /Catalyst-Plugin-Email-*.tar.gz
+/Distar/

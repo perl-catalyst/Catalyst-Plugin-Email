@@ -3,13 +3,12 @@ use warnings;
 
 use ExtUtils::MakeMaker;
 
-my $developer = -f '.gitignore';
-ExtUtils::MakeMaker->VERSION('7.00') if $developer;
+ExtUtils::MakeMaker->VERSION('7.00') unless -f 'META.yml';
+(do 'maint/Makefile.PL.include' or die $@) unless -f 'META.yml';
 
 my %WriteMakefileArgs = (
     NAME => 'Catalyst::Plugin::Email',
     VERSION_FROM => 'lib/Catalyst/Plugin/Email.pm',
-    ABSTRACT => 'Send emails with Catalyst',
     AUTHOR => 'Sebastian Riedel <sri@cpan.org>',
     LICENSE => 'perl_5',
     MIN_PERL_VERSION => 5.008,  # catalyst minimum
@@ -46,7 +45,7 @@ my %WriteMakefileArgs = (
 );
 
 die 'need to do a merge with CPAN::Meta::Requirements!!'
-    if $developer && exists $WriteMakefileArgs{BUILD_REQUIRES};
+    if !-f 'META.yml' && exists $WriteMakefileArgs{BUILD_REQUIRES};
 
 if (!eval { ExtUtils::MakeMaker->VERSION('6.6303') }) {
     $WriteMakefileArgs{BUILD_REQUIRES} = $WriteMakefileArgs{TEST_REQUIRES};
@@ -68,7 +67,7 @@ my %mm_req = (
 );
 for (keys %mm_req) {
     unless (eval { ExtUtils::MakeMaker->VERSION($mm_req{$_}) }) {
-        warn "$_ $@" if $developer;
+        warn "$_ $@" if not -f 'Makefile.PL';
         delete $WriteMakefileArgs{$_};
     }
 }
