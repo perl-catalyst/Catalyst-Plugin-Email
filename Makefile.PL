@@ -21,6 +21,28 @@ my %WriteMakefileArgs = (
     },
     TEST_REQUIRES => {
     },
+
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        dynamic_config => 0,
+        resources => {
+            # r/w: catagits@git.shadowcat.co.uk:Catalyst-Plugin-Email
+            # r/o: git://git.shadowcat.co.uk:catagits/Catalyst-Plugin-Email
+            # web: http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Plugin-Email.git
+            repository => {
+                url => 'https://github.com/perl-catalyst/Catalyst-Plugin-Email.git',
+                web => 'https://github.com/perl-catalyst/Catalyst-Plugin-Email',
+                type => 'git',
+            },
+            bugtracker => {
+                mailto => 'bug-Catalyst-Plugin-Email@rt.cpan.org',
+                web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Plugin-Email',
+            },
+            x_MailingList => 'http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/catalyst',
+            x_IRC => 'irc://irc.perl.org/#catalyst',
+        },
+        x_deprecated => 1,
+    },
 );
 
 die 'need to do a merge with CPAN::Meta::Requirements!!'
