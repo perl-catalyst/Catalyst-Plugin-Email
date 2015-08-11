@@ -6,7 +6,7 @@ use Email::MIME;
 use Email::MIME::Creator;
 use Carp qw/croak/;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 NAME
 
