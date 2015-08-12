@@ -1,6 +1,8 @@
 package Catalyst::Plugin::Email;
 
 use strict;
+use warnings;
+
 use Email::Send;
 use Email::MIME;
 use Email::MIME::Creator;
