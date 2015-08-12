@@ -4,7 +4,6 @@ use strict;
 use Email::Send;
 use Email::MIME;
 use Email::MIME::Creator;
-use Carp qw/croak/;
 
 our $VERSION = '0.09';
 

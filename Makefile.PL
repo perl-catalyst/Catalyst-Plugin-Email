@@ -17,7 +17,6 @@ my %WriteMakefileArgs = (
         'Email::Send'           => '0',
         'Email::MIME'           => '0',
         'Email::MIME::Creator'  => '0',
-        'Carp'                  => '0',
     },
     TEST_REQUIRES => {
         'Test::More'            => '0',
